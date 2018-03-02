@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Giphy</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Giphy Search</h1>
+        <!-- Giphys will get dumped here -->
+        <div id="giphy-view"></div>
+        
+        <!-- Giphy input box -->
+        <div>
+            <form id="giphy-form">
+                <label for="giphy-input">Add a Giphy Bro</label>
+                <input type="text" id="giphy-input"><br>
+                <!-- Button triggers new giphy to be added --> 
+                <input id="add-giphy" type="submit" value="Add a Giphy Bro">
+            </form>
+        </div>
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        
+        // variable to get user input from input box
+        var giphyInput = function(giphySearch) {
+        // queryURL for Giphy API search
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q="+giphySearch+"&api_key=qp9yvW3xXtuMV2WoDMDCtSueSLGlcosg&limit=5";
+            $.ajax({
+                url: queryURL,
+                method: 'GET'
+            }).then(function(response) {
+        console.log(response);
+        
+        this.append("#add-giphy")
+        }
+        // call function and pull data from input box
+            };
+        
+        /* Function for displaying giphy data */
+        function renderButtons() {
+            
+            /* Deleting the giphys prior to adding new giphys */
+/* (this is necessary otherwise we will have repeat buttons) */
+
+$("#giphy-view").empty();
+
+var giphys = ["Starbucks", "Apple", "Salesforce", "Amazon"] 
+/* // Looping through the array of giphys */
+for (var i = 0; i < giphy.length; i++) {
+    
+  /* // Then dynamicaly generating buttons for each giphy in the array */
+  /* // This code $("<button>") is all jQuery needs to create the beginning and end tag. (<button></button>) */
+  var a = $("<button>");
+    /* // Adding a class */
+    a.addClass("giphy");
+    /* // Added a data-attribute */
+    a.attr("data-name", giphys[i]);
+    /* // Provided the initial button text */
+    a.text(gihpy[i]);
+    /* // Added the button to the HTML */
+    $("#giphy-view").append(a);
+}
+}
+
+
+// This function handles events where one button is clicked
+$("#add-giphy").on("click", function(event) {
+    // event.preventDefault() prevents the form from trying to submit itself.
+    // We're using a form so that the user can hit enter instead of clicking the button if they want
+    event.preventDefault();
+    // This line will grab the text from the input box
+    var giphy = $("#giphy-input").val().trim();
+    // The giphy from the textbox is then added to our array
+    giphys.push(giphy);
+    // calling renderButtons which handles the processing of our giphy array
+    renderButtons();
+});
+// Calling the renderButtons function at least once to display the initial list of giphys
+renderButtons();
+
+
+</script>
+                 
+
+
+</body>
+</html>
